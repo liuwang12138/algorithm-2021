@@ -39,19 +39,19 @@ public class Q004_SquareDye {
             return 0;
         }
         char[] cs = s.toCharArray();
-        int[] leftGreen = new int[cs.length+1];
+        int leftGreen = 0;
         int[] rightRed = new int[cs.length+1];
         // arr[i]代表分割线放在cs[i]的左侧
-        for (int i=1; i<cs.length+1; i++) {
-            leftGreen[i] = cs[i-1] == 'G' ? leftGreen[i-1] + 1 : leftGreen[i-1];
-        }
         for (int i=cs.length-1; i>=0; i--) {
             rightRed[i] = cs[i] == 'R' ? rightRed[i+1] +  1 : rightRed[i+1];
         }
 
         int res = Integer.MAX_VALUE;
         for (int i=0; i<cs.length+1; i++) {
-            res = Math.min(res, leftGreen[i] + rightRed[i]);
+            if (i>0 && cs[i-1] == 'G') {
+                leftGreen++;
+            }
+            res = Math.min(res, leftGreen + rightRed[i]);
         }
 
         return res;
@@ -59,6 +59,7 @@ public class Q004_SquareDye {
 
     public static void main(String[] args) {
         System.out.println(minDyeNum("RGRGR"));
+        System.out.println(minDyeNum2("RGRGR"));
     }
 
 }
